@@ -48,5 +48,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Your security is important to us. This app uses Face ID to ensure only you can access your personal and financial information.</string>
 </dict>
 </plist>
