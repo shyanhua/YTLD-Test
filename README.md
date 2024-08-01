@@ -6,7 +6,6 @@
 # tips
 
 - this app is calling the api from free.beeceptor.com for transaction list, free tier only allow 50 requests/day
-- for android, please modify ReactTypefaceUtils.java from react-native-navigation inside node_modules. Follow this https://github.com/wix/react-native-navigation/issues/7881#issuecomment-2164213896
 
 # steps to run the project
 
