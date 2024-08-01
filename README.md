@@ -6,6 +6,8 @@
 # tips
 
 - this app is calling the api from free.beeceptor.com for transaction list, free tier only allow 50 requests/day
+- setup the touchid/faceid in iphone
+- setup fingerprint in android
 
 # steps to run the project
 
