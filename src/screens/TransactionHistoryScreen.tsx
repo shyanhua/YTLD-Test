@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import {
   View,
   FlatList,
@@ -14,6 +14,7 @@ import { fetchTransactions } from "../redux/actions/TransactionAction";
 import { Transaction } from "../redux/types/TransactionTypes";
 import { RootState, useAppDispatch } from "../redux/Store";
 import { ShowAllContext } from "../navigation/AppNavigator";
+import LottieView from "lottie-react-native";
 
 type TransactionHistoryScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
@@ -26,6 +27,8 @@ type Props = {
 
 const TransactionHistoryScreen: React.FC<Props> = ({ navigation }) => {
   const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const { transactions, error } = useSelector(
     (state: RootState) => state.transactions
   );
@@ -35,8 +38,20 @@ const TransactionHistoryScreen: React.FC<Props> = ({ navigation }) => {
   );
 
   useEffect(() => {
-    dispatch(fetchTransactions());
+    fetchData();
   }, [dispatch]);
+
+  const fetchData = async () => {
+    setLoading(true);
+    await dispatch(fetchTransactions());
+    setLoading(false);
+  };
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    await dispatch(fetchTransactions());
+    setRefreshing(false);
+  };
 
   const renderTransactionItem = ({ item }: { item: Transaction }) => (
     <TouchableOpacity
@@ -50,7 +65,16 @@ const TransactionHistoryScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {error ? (
+      {loading ? (
+        <View style={styles.loadingContainer}>
+          <LottieView
+            source={require("../../assets/loading.json")}
+            autoPlay
+            loop
+            style={styles.loading}
+          />
+        </View>
+      ) : error ? (
         <Text style={styles.error}>{error}</Text>
       ) : (
         <FlatList
@@ -60,6 +84,8 @@ const TransactionHistoryScreen: React.FC<Props> = ({ navigation }) => {
           initialNumToRender={10}
           maxToRenderPerBatch={10}
           windowSize={5}
+          refreshing={refreshing}
+          onRefresh={handleRefresh}
         />
       )}
     </View>
@@ -70,22 +96,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    backgroundColor: "#FFFFFF",
   },
   error: {
     color: "red",
     textAlign: "center",
     marginTop: 20,
   },
-  floatingButton: {
-    position: "absolute",
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: "blue",
+  loadingContainer: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(255, 255, 255, 0.8)",
     justifyContent: "center",
     alignItems: "center",
-    bottom: 30,
-    right: 30,
+  },
+  loading: {
+    width: 200,
+    height: 200,
   },
 });
 

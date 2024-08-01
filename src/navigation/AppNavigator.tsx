@@ -55,7 +55,6 @@ const AppNavigator: React.FC = () => {
                   <Button
                     onPress={handleShowAll}
                     title={showAll ? "Hide All" : "Show All"}
-                    color="#000"
                   />
                 </View>
               ),

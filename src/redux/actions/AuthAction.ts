@@ -9,7 +9,7 @@ export const login =
   (
     username: string,
     password: string
-  ): ThunkAction<void, RootState, unknown, Action<string>> =>
+  ): ThunkAction<Promise<void>, RootState, unknown, Action<string>> =>
   async (dispatch) => {
     try {
       const response = await api.post("/auth/login", { username, password });

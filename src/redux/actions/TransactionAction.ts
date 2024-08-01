@@ -8,7 +8,7 @@ import { RootState } from "../Store";
 import api2 from "../../services/Api2";
 
 export const fetchTransactions =
-  (): ThunkAction<void, RootState, unknown, Action<string>> =>
+  (): ThunkAction<Promise<void>, RootState, unknown, Action<string>> =>
   async (dispatch) => {
     try {
       const response = await api2.get("/transaction");
